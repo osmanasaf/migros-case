@@ -68,7 +68,9 @@ public class CourierService {
         GeoLocation location = courierLocationLog.getLocation();
         List<Store> nearbyStores = storeService.getNearbyStores(location.getLat(), location.getLng());
 
-        if (!nearbyStores.isEmpty()) {
+        if (nearbyStores.isEmpty()) {
+            throw new BadRequestException(String.format(ErrorMessages.NO_NEARBY_STORES, courierId));
+        }else{
             saveEntriesForNearbyStores(courierId, nearbyStores);
         }
     }

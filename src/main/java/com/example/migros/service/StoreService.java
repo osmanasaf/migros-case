@@ -57,6 +57,9 @@ public class StoreService {
                 nearbyStores.add(store);
             }
         }
+        if (nearbyStores.isEmpty()) {
+            throw new BadRequestException(ErrorMessages.NO_NEARBY_STORES);
+        }
         return nearbyStores;
     }
 }

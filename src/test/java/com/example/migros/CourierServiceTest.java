@@ -80,10 +80,10 @@ class CourierServiceTest {
     @Test
     void testUpdateCourierLocation() {
         Long courierId = 1L;
-        GeoLocation location = new GeoLocation();
+        GeoLocation location = new GeoLocation(40.0, 29.0);
         Courier courier = new Courier();
         courier.setId(courierId);
-        courier.setLocation(new GeoLocation());
+        courier.setLocation(new GeoLocation(100.0, 129.0));
 
         when(courierRepo.findById(courierId)).thenReturn(Optional.of(courier));
         when(courierRepo.save(courier)).thenReturn(courier);
@@ -120,11 +120,12 @@ class CourierServiceTest {
     @Test
     void testCheckLocationIsNearToStoreAndSaveWithNearbyStores() {
         Courier mockCourier = new Courier();
+        mockCourier.setName("test");
         mockCourier.setId(1L);
-        mockCourier.setLocation(new GeoLocation());
+        mockCourier.setLocation(new GeoLocation(40.0, 29.0));
 
         CourierLocationLog courierLocationLog = new CourierLocationLog();
-        courierLocationLog.setLocation(new GeoLocation());
+        courierLocationLog.setLocation(new GeoLocation(60.0, 19.0));
         courierLocationLog.setCourierId(1L);
 
         when(storeService.getNearbyStores(anyDouble(), anyDouble())).thenReturn(Arrays.asList(new Store()));
