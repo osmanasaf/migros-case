@@ -7,7 +7,7 @@ import com.example.migros.repository.StoreRepository;
 import com.example.migros.util.LocationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
@@ -19,15 +19,11 @@ import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "stores")
+@RequiredArgsConstructor
 public class StoreService {
 
     private static final double RADIUS = 100.0;
     private final StoreRepository storeRepository;
-
-    @Autowired
-    public StoreService(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
-    }
 
     @PostConstruct
     public void initializeStores() {

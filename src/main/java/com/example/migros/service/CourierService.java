@@ -5,7 +5,7 @@ import com.example.migros.exception.BadRequestException;
 import com.example.migros.model.*;
 import com.example.migros.repository.CourierRepository;
 import com.example.migros.util.LocationUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -13,25 +13,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CourierService {
 
-    private static final String TOPIC_NAME = "courierLocations";
 
     private final CourierRepository courierRepo;
     private final StoreService storeService;
     private final KafkaProducerService kafkaProducerService;
     private final CourierStoreEntryService courierStoreEntryService;
-
-    @Autowired
-    public CourierService(CourierRepository courierRepo,
-                          StoreService storeService,
-                          KafkaProducerService kafkaProducerService,
-                          CourierStoreEntryService courierStoreEntryService) {
-        this.courierRepo = courierRepo;
-        this.storeService = storeService;
-        this.kafkaProducerService = kafkaProducerService;
-        this.courierStoreEntryService = courierStoreEntryService;
-    }
 
     public Courier addCourier(Courier courier) {
         checkCourierExistence(courier.getId());
