@@ -3,13 +3,13 @@ package com.example.migros.controller;
 import com.example.migros.model.Store;
 import com.example.migros.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/v1/stores")
+@RestController
+@RequestMapping("/api/v1/stores")
 public class StoreController {
 
     private final StoreService storeService;
@@ -20,12 +20,20 @@ public class StoreController {
     }
 
     @GetMapping("/all")
-    public List<Store> getAllStores() {
-        return storeService.getAllStores();
+    public ResponseEntity<List<Store>> getAllStores() {
+        List<Store> stores = storeService.getAllStores();
+        if (stores.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(stores);
     }
 
     @GetMapping("/nearby")
-    public List<Store> getNearbyStores(@RequestParam Double latitude, @RequestParam Double longitude) {
-        return storeService.getNearbyStores(latitude, longitude);
+    public ResponseEntity<List<Store>> getNearbyStores(@RequestParam Double latitude, @RequestParam Double longitude) {
+        List<Store> nearbyStores = storeService.getNearbyStores(latitude, longitude);
+        if (nearbyStores.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(nearbyStores);
     }
 }

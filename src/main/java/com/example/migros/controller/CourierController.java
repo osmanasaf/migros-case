@@ -4,6 +4,7 @@ import com.example.migros.model.Courier;
 import com.example.migros.model.GeoLocation;
 import com.example.migros.service.CourierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,22 +19,26 @@ public class CourierController {
     }
 
     @PostMapping
-    public Courier addCourier(@RequestBody Courier courier) {
-        return courierService.addCourier(courier);
+    public ResponseEntity<Courier> addCourier(@RequestBody Courier courier) {
+        Courier newCourier = courierService.addCourier(courier);
+        return ResponseEntity.status(201).body(newCourier);
     }
 
     @PutMapping("/{courierId}/location")
-    public Courier updateCourierLocation(@PathVariable Long courierId, @RequestBody GeoLocation location) {
-        return courierService.updateCourierLocation(courierId, location);
+    public ResponseEntity<Courier> updateCourierLocation(@PathVariable Long courierId, @RequestBody GeoLocation location) {
+        Courier updatedCourier = courierService.updateCourierLocation(courierId, location);
+        return ResponseEntity.ok(updatedCourier);
     }
 
     @GetMapping("/{courierId}")
-    public Courier getCourierById(@PathVariable Long courierId) {
-        return courierService.getCourierById(courierId);
+    public ResponseEntity<Courier> getCourierById(@PathVariable Long courierId) {
+        Courier courier = courierService.getCourierById(courierId);
+        return ResponseEntity.ok(courier);
     }
 
     @GetMapping("/{courierId}/distance")
-    public double getTotalTravelDistance(@PathVariable Long courierId) {
-        return courierService.getTotalTravelDistance(courierId);
+    public ResponseEntity<Double> getTotalTravelDistance(@PathVariable Long courierId) {
+        double distance = courierService.getTotalTravelDistance(courierId);
+        return ResponseEntity.ok(distance);
     }
 }
