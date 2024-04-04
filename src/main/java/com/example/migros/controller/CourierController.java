@@ -3,9 +3,11 @@ package com.example.migros.controller;
 import com.example.migros.model.Courier;
 import com.example.migros.model.GeoLocation;
 import com.example.migros.service.CourierService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/courier")
@@ -19,13 +21,13 @@ public class CourierController {
     }
 
     @PostMapping
-    public ResponseEntity<Courier> addCourier(@RequestBody Courier courier) {
+    public ResponseEntity<Courier> addCourier(@Valid @RequestBody Courier courier) {
         Courier newCourier = courierService.addCourier(courier);
         return ResponseEntity.status(201).body(newCourier);
     }
 
     @PutMapping("/{courierId}/location")
-    public ResponseEntity<Courier> updateCourierLocation(@PathVariable Long courierId, @RequestBody GeoLocation location) {
+    public ResponseEntity<Courier> updateCourierLocation(@PathVariable Long courierId, @Valid @RequestBody GeoLocation location) {
         Courier updatedCourier = courierService.updateCourierLocation(courierId, location);
         return ResponseEntity.ok(updatedCourier);
     }

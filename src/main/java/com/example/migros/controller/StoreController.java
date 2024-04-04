@@ -22,18 +22,12 @@ public class StoreController {
     @GetMapping("/all")
     public ResponseEntity<List<Store>> getAllStores() {
         List<Store> stores = storeService.getAllStores();
-        if (stores.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(stores);
     }
 
     @GetMapping("/nearby")
     public ResponseEntity<List<Store>> getNearbyStores(@RequestParam Double latitude, @RequestParam Double longitude) {
         List<Store> nearbyStores = storeService.getNearbyStores(latitude, longitude);
-        if (nearbyStores.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(nearbyStores);
     }
 }
